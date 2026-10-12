@@ -1,0 +1,42 @@
+PULSEIQ ETL PIPELINE SUMMARY
+========================================
+
+CLEANED DATASET
+README: 94 rows, 5 columns
+data_dictionary: 371 rows, 8 columns
+metric_dictionary: 28 rows, 12 columns
+data_contracts: 42 rows, 6 columns
+dq_checks_catalog: 14 rows, 9 columns
+dim_date: 2557 rows, 18 columns
+dim_employee: 1606 rows, 21 columns
+dim_department: 11 rows, 5 columns
+dim_role: 58 rows, 10 columns
+dim_location: 9 rows, 4 columns
+dim_leave_type: 6 rows, 8 columns
+dim_account: 47 rows, 8 columns
+dim_client: 28 rows, 14 columns
+dim_vendor: 30 rows, 7 columns
+dim_team: 16 rows, 7 columns
+dim_sprint: 38 rows, 6 columns
+fact_payroll: 7344 rows, 33 columns
+fact_attendance_monthly: 7343 rows, 16 columns
+fact_leave: 3441 rows, 14 columns
+fact_headcount_monthly: 891 rows, 11 columns
+fact_ledger: 6784 rows, 13 columns
+fact_invoice: 743 rows, 20 columns
+fact_invoice_payment: 709 rows, 9 columns
+fact_expense: 501 rows, 20 columns
+fact_task: 28868 rows, 16 columns
+fact_anomaly: 405 rows, 13 columns
+fact_attrition_risk: 430 rows, 13 columns
+fact_forecast: 72 rows, 11 columns
+budget_payroll_dept_month: 198 rows, 3 columns
+kpi_targets: 180 rows, 6 columns
+reconciliation_answer_key: 18 rows, 12 columns
+reference_summary_dept_month: 198 rows, 19 columns
+dq_known_issues: 11 rows, 7 columns
+
+Total rows across sheets: 63091
+
+Cleaning log: Available
+Quality report: Available
