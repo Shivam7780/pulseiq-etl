@@ -1,0 +1,4 @@
+query,source_groups,report_groups,matching_groups,metric_mismatches_after_exclusions,status,notes
+Monthly payroll by department,198,198,198,0,PASS,Compared after excluding IDs in unmatched_payroll.csv
+Monthly headcount by department,891,891,891,0,PASS,All source records and metrics matched
+Monthly attendance by department,198,198,198,0,PASS,Compared after excluding IDs in unmatched_attendance_source.csv

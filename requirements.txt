@@ -3,3 +3,7 @@ openpyxl
 pandera
 pyarrow
 python-dotenv
+pandas
+openpyxl
+SQLAlchemy
+psycopg2-binary

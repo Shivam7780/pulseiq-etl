@@ -6,11 +6,13 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = [
     "clean_data.py",
+    "validate_hr_data.py",
+    "validate_payroll.py",
+    "validate_attendance_leave.py",
     "validate_tasks.py",
     "check_mapping.py",
     "data_quality_report.py",
 ]
-
 def main():
     print("=" * 50)
     print("PULSEIQ ETL PIPELINE")

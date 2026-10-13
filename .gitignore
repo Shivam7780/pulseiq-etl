@@ -1,0 +1,21 @@
+
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Backup files
+*.bak
+*.bak.*
+
+# Temporary test files
+temp_test/
+
+# Temporary logs
+logs/
+
+
+sql/schema_backup.sql
+
+src/data_quality_report_backup.py
+src/final_check_backup.py

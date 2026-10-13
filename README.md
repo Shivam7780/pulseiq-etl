@@ -1,180 +1,99 @@
-\# PulseIQ Analytics — ETL Pipeline
+﻿# PulseIQ ETL Analytics
 
+## Project Overview
+PulseIQ ETL Analytics is a Python-based data pipeline for cleaning, validating, and analyzing workforce data. It includes a PostgreSQL analytics warehouse, dimensional modeling, repeatable fact-table loads, and SQL-based reporting.
 
+## Technologies Used
+- Python
+- Pandas and OpenPyXL
+- SQLAlchemy and psycopg2
+- PostgreSQL
+- Python-dotenv
+- Pandera and PyArrow
 
-\## 1. Project Overview
+## Main Features
+- Cleans and standardizes workforce data.
+- Validates employee, payroll, attendance, leave, and task records.
+- Produces data-quality reports and rejected-record files.
+- Implements a dimensional warehouse with date, employee, department, role, and leave-type dimensions.
+- Loads payroll, attendance, and monthly headcount facts using repeatable upserts.
+- Runs SQL analytics for monthly payroll, headcount, and attendance by department.
+- Reconciles query results against source data and documents unmatched records.
 
+## Project Structure
+- `data/raw/` — Source datasets.
+- `data/clean/` — Cleaned source workbook.
+- `src/` — Cleaning, validation, and ETL scripts.
+- `sql/schema.sql` — Warehouse schema definition.
+- `sql/queries/` — Analytics SQL queries.
+- `docs/` — Star schema design and diagram documentation.
+- `reports/` — Query results, reconciliation, and data-quality reports.
+- `logs/` — Pipeline logs.
+- `rejected/` — Records flagged for review.
+- `requirements.txt` — Python dependencies.
+- `.env` — Local database connection configuration; do not commit this file.
 
+## Setup
+1. Install and start Docker Desktop.
+2. Start the PostgreSQL container if it is not already running.
+3. Activate the virtual environment:
 
-This project builds an ETL (Extract, Transform, Load) pipeline for the PulseIQ Analytics star-schema dataset. It processes Excel data, standardizes fields, removes exact duplicate records, and performs data quality checks.
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
 
+4. Install dependencies:
 
+   ```powershell
+   pip install -r requirements.txt
+   ```
 
-\## 2. Technologies Used
+5. Configure `DATABASE_URL` in the local `.env` file. Use your own valid database credentials. Do not put passwords in source files or commit `.env`.
 
-
-
-\- Python
-
-\- Pandas
-
-\- OpenPyXL
-
-\- Excel
-
-\- PowerShell
-
-
-
-\## 3. Project Structure
-
-
-
-```text
-
-pulseiq-etl/
-
-├── data/
-
-│   ├── raw/
-
-│   └── clean/
-
-├── src/
-
-│   ├── clean\_data.py
-
-│   ├── inspect\_dataset.py
-
-│   ├── validate\_data.py
-
-│   ├── validate\_tasks.py
-
-│   ├── check\_mapping.py
-
-│   ├── data\_quality\_report.py
-
-│   ├── final\_check.py
-
-│   ├── pipeline\_summary.py
-
-│   └── run\_pipeline.py
-
-├── logs/
-
-├── rejected/
-
-└── reports/
-
-```
-
-
-
-\## 4. Pipeline Workflow
-
-
-
-1\. Extract data from the raw Excel workbook.
-
-2\. Standardize column names and trim text fields.
-
-3\. Remove exact duplicate rows and empty rows or columns according to the cleaning rules.
-
-4\. Validate task IDs, required values, dates, and employee mappings.
-
-5\. Record records requiring investigation.
-
-6\. Generate data quality and pipeline summary reports.
-
-
-
-\## 5. How to Run
-
-
-
-From the project root, activate the Python environment if required and run:
-
-
+## Running the Original Cleaning Pipeline
+From the project root:
 
 ```powershell
-
-python .\\src\\run\_pipeline.py
-
+python .\src\run_pipeline.py
 ```
 
+## Warehouse and Analytics
+The warehouse schema is `warehouse_v2`. The database connection is read from the local `.env` file by loaders that use `DATABASE_URL`.
 
+Analytics queries:
+- `sql/queries/01_monthly_payroll_by_department.sql`
+- `sql/queries/02_monthly_headcount_by_department.sql`
+- `sql/queries/03_monthly_attendance_by_department.sql`
 
-Run individual scripts when investigating issues:
-
-
+Run a query in PowerShell by piping its contents to `psql`. For example:
 
 ```powershell
-
-python .\\src\\clean\_data.py
-
-python .\\src\\validate\_tasks.py
-
-python .\\src\\data\_quality\_report.py
-
-python .\\src\\final\_check.py
-
-python .\\src\\pipeline\_summary.py
-
+Get-Content sql/queries/01_monthly_payroll_by_department.sql -Raw |
+    docker exec -i pulseiq-postgres psql -U pulseiq_user -d pulseiq_warehouse -v ON_ERROR_STOP=1
 ```
 
+Use the correct database for your environment. Test loaders should target the test database, not the production or primary warehouse.
 
+## Task 2 Reconciliation Results
+The recorded reconciliation report shows:
 
-\## 6. Current Validation Findings
+| Query | Source groups | Report groups | Matching groups | Metric mismatches after exclusions | Status |
+|---|---:|---:|---:|---:|---|
+| Monthly payroll by department | 198 | 198 | 198 | 0 | PASS |
+| Monthly headcount by department | 891 | 891 | 891 | 0 | PASS |
+| Monthly attendance by department | 198 | 198 | 198 | 0 | PASS |
 
+See `reports/query_reconciliation_summary.csv` for the detailed reconciliation record.
 
+## Data Quality Notes
+- Payroll ETL processed 7,260 records from 7,344 source rows; 84 records were unmatched.
+- Attendance ETL processed 7,258 records from 7,343 source rows; 85 records were unmatched.
+- Unmatched records are documented in the reports and should be investigated before any attempt to load them.
+- Do not silently discard or alter source data to make reconciliation pass.
+- The headcount loader processed 891 records and remained at 891 rows after a second run.
+- Payroll remained at 7,260 rows after a second test load.
+- Attendance remained at 7,258 rows after a second test load.
+- These repeatability checks were performed against the test database.
 
-The task validation run reported:
-
-
-
-\- Task records: 28,868
-
-\- Duplicate task IDs: 0
-
-\- Missing task IDs: 0
-
-\- Unmatched task assignments: 0
-
-\- Completion dates earlier than start dates: 12 records requiring investigation
-
-
-
-These results describe the observed task validation run, not a guarantee that every sheet passes all data quality rules.
-
-
-
-\## 7. Output Files
-
-
-
-\- `data/clean/pulseiq\_cleaned.xlsx` — cleaned workbook
-
-\- `logs/cleaning\_log.txt` — cleaning log
-
-\- `reports/data\_quality\_report.xlsx` — data quality summary and issue details
-
-\- `reports/pipeline\_summary.txt` — workbook row and column summary
-
-\- `rejected/task\_date\_issues.csv` — task date records requiring review, if generated at this path
-
-
-
-\## 8. Data Quality Notes
-
-
-
-Missing values should be handled according to business rules. For example, an employee's exit date may legitimately be blank. Date inconsistencies should be investigated against the source data rather than silently corrected or deleted.
-
-
-
-\## 9. Project Status
-
-
-
-The initial cleaning, task validation, employee mapping, and reporting scripts have been executed. Final completion requires confirming that all output paths are consistent, validation counts are generated dynamically, and the complete pipeline runs successfully from start to finish.
-
+## Project Status
+The three recorded analytics reconciliation checks passed. Repeatability checks passed for the headcount, payroll, and attendance test loads. Unmatched payroll and attendance records remain documented data-quality exceptions and require review.
