@@ -1,0 +1,59 @@
+# PulseIQ ETL Analytics Pipeline
+
+## Project Overview
+PulseIQ ETL Analytics is a Python-based data pipeline designed to clean, validate, and assess the quality of workforce analytics data stored in an Excel workbook.
+
+## Technologies Used
+- Python
+- Pandas
+- OpenPyXL
+- PyArrow
+- Pandera
+- Python-dotenv
+
+## Main Features
+- Standardizes column names and cleans text data.
+- Removes duplicate and empty records where appropriate.
+- Validates employee, payroll, attendance, leave, and task data.
+- Checks whether task assignees match employee records.
+- Identifies date-related data-quality issues.
+- Generates a data-quality report and rejected-record files.
+- Runs pipeline scripts sequentially.
+
+## Project Structure
+- `data/raw/` — Source dataset.
+- `data/clean/` — Cleaned Excel workbook.
+- `src/` — Python scripts for cleaning and validation.
+- `logs/` — Cleaning logs.
+- `reports/` — Data-quality reports and pipeline summaries.
+- `rejected/` — Records flagged for review.
+- `requirements.txt` — Python dependencies.
+
+## How to Run
+Activate the project's virtual environment and run these commands from the project root:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python .\src\run_pipeline.py
+```
+
+## Validation Results
+- Task records processed: 28,868.
+- Task-to-employee mapping: 28,868 matched; 0 unmatched.
+- Duplicate task IDs: 0.
+- Missing task IDs: 0.
+- Missing task assignees: 0.
+- Tasks completed before their start dates: 12 flagged for review.
+- Leave records with invalid or reversed dates: 2 flagged for review.
+
+## Data Quality Notes
+Flagged records should be checked against the source data before any correction. Original values should be preserved until corrections are verified.
+
+## Output Files
+- `data/clean/pulseiq_cleaned.xlsx`
+- `reports/data_quality_report.xlsx`
+- `logs/cleaning_log.txt`
+- `rejected/task_date_issues.csv`
+
+## Project Status
+The core ETL pipeline runs successfully. The flagged date exceptions require review before the data can be considered fully validated.
