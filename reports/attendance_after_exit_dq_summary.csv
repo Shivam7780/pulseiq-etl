@@ -1,0 +1,4 @@
+source_employment_status,affected_records,average_days_after_exit,max_days_after_exit
+Contract Ended,9,20.1,33
+Resigned,70,16.2,44
+Terminated,6,19.8,29

@@ -1,0 +1,27 @@
+
+--- dim_employee ---
+employee_key, employee_id, full_name, gender, date_of_birth, hire_date, exit_date, employment_status, employment_type, department_id, role_id, role_title, job_level, manager_id, work_location, work_mode, highest_education, valid_from, valid_to, is_current, change_reason
+
+--- dim_department ---
+department_id, department_name, cost_center, description, is_leadership
+
+--- dim_role ---
+role_id, department_id, role_title, level, grade, band_min_annual, band_mid_annual, band_max_annual, overtime_eligible, band_reference_year
+
+--- dim_date ---
+date, date_key, year, quarter, month_number, month_name, year_month, week_of_year, day_of_week, is_weekend, is_holiday, is_working_day, financial_year, fiscal_quarter, fiscal_month_number, is_month_end, month_start_date, month_end_date
+
+--- dim_leave_type ---
+leave_type_code, leave_type_name, pay_type, annual_quota_days, prorated_for_joiners, carry_forward_allowed, max_carry_forward_days, policy_note
+
+--- fact_payroll ---
+payroll_item_id, run_id, employee_id, date_key, employee_key, period_end_date, department_id, role_id, payable_days, lop_days, overtime_hours_paid, variable_pay_type, monthly_fixed_gross, basic, hra, conveyance, medical, special_allowance, earned_fixed_pay, overtime_pay, variable_pay, gross_pay, pf_employee, esi_employee, professional_tax, tds, other_deductions, total_deductions, net_pay, pf_employer, esi_employer, employer_cost, headcount_flag
+
+--- fact_attendance_monthly ---
+attendance_fact_id, employee_id, date_key, employee_key, department_id, scheduled_days, present_days, wfh_days, half_days_unpaid, paid_leave_days, unpaid_absence_days, late_arrivals, avg_hours_worked, overtime_hours, attendance_rate, period_end_date
+
+--- fact_leave ---
+leave_request_id, employee_id, employee_key, leave_type_code, start_date_key, end_date_key, start_date, end_date, days, status, applied_on, decided_on, approver_id, reason
+
+--- fact_headcount_monthly ---
+date_key, month_start_date, department_id, headcount_start, hires, exits, voluntary_exits, transfers_in, transfers_out, headcount_end, attrition_rate_monthly_pct

@@ -1,0 +1,10 @@
+table_name
+dim_date
+dim_department
+dim_employee
+dim_leave_type
+dim_role
+fact_attendance
+fact_headcount_monthly
+fact_leave
+fact_payroll

@@ -1,0 +1,26 @@
+﻿services:
+  superset:
+    image: apache/superset:latest
+    container_name: pulseiq-superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: "pulseiq-local-development-secret-change-me"
+    volumes:
+      - superset_home:/app/superset_home
+    command: >
+      /bin/sh -c "
+      superset db upgrade &&
+      superset fab create-admin
+      --username admin
+      --firstname PulseIQ
+      --lastname Admin
+      --email admin@pulseiq.local
+      --password PulseIQ_Admin_2026 &&
+      superset init &&
+      /usr/bin/run-server.sh
+      "
+    restart: unless-stopped
+
+volumes:
+  superset_home:

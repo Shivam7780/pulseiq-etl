@@ -1,21 +1,36 @@
-
+# Python environments and cache
 .venv/
+.venv_old/
 __pycache__/
-*.pyc
-.env
+*.py[cod]
 
-# Backup files
+# Secrets
+.env
+.env.*
+
+# Keep an example configuration if available
+!.env.example
+
+# Temporary logs, but retain the required cleaning log
+logs/*
+!logs/cleaning_log.txt
+
+# Temporary and backup files
 *.bak
 *.bak.*
-
-# Temporary test files
 temp_test/
+# Temporary employee/payroll investigation scripts
+/check_employee_date_ranges.py
+/check_employee_history.py
+/check_employee_versions.py
+/compare_employee_source.py
+/find_transfer_test.py
+/inspect_*.py
+/summarize_employee_history.py
+/verify_payroll.py
+/verify_source_employee_keys.py
 
-# Temporary logs
-logs/
-
-
+# Backup files
 sql/schema_backup.sql
-
 src/data_quality_report_backup.py
 src/final_check_backup.py

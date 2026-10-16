@@ -1,0 +1,20 @@
+tablename,indexname,indexdef
+dim_date,dim_date_full_date_key,CREATE UNIQUE INDEX dim_date_full_date_key ON warehouse_v2.dim_date USING btree (full_date)
+dim_date,dim_date_pkey,CREATE UNIQUE INDEX dim_date_pkey ON warehouse_v2.dim_date USING btree (date_key)
+dim_department,dim_department_department_id_key,CREATE UNIQUE INDEX dim_department_department_id_key ON warehouse_v2.dim_department USING btree (department_id)
+dim_department,dim_department_pkey,CREATE UNIQUE INDEX dim_department_pkey ON warehouse_v2.dim_department USING btree (department_key)
+dim_employee,dim_employee_pkey,CREATE UNIQUE INDEX dim_employee_pkey ON warehouse_v2.dim_employee USING btree (employee_key)
+dim_employee,idx_employee_business_id,CREATE INDEX idx_employee_business_id ON warehouse_v2.dim_employee USING btree (employee_id)
+dim_employee,idx_employee_current,"CREATE INDEX idx_employee_current ON warehouse_v2.dim_employee USING btree (employee_id, is_current)"
+dim_leave_type,dim_leave_type_leave_type_code_key,CREATE UNIQUE INDEX dim_leave_type_leave_type_code_key ON warehouse_v2.dim_leave_type USING btree (leave_type_code)
+dim_leave_type,dim_leave_type_pkey,CREATE UNIQUE INDEX dim_leave_type_pkey ON warehouse_v2.dim_leave_type USING btree (leave_type_key)
+dim_role,dim_role_pkey,CREATE UNIQUE INDEX dim_role_pkey ON warehouse_v2.dim_role USING btree (role_key)
+dim_role,dim_role_role_id_key,CREATE UNIQUE INDEX dim_role_role_id_key ON warehouse_v2.dim_role USING btree (role_id)
+fact_attendance,fact_attendance_pkey,CREATE UNIQUE INDEX fact_attendance_pkey ON warehouse_v2.fact_attendance USING btree (attendance_fact_id)
+fact_attendance,idx_attendance_employee_date,"CREATE INDEX idx_attendance_employee_date ON warehouse_v2.fact_attendance USING btree (employee_key, date_key)"
+fact_headcount_monthly,fact_headcount_monthly_pkey,"CREATE UNIQUE INDEX fact_headcount_monthly_pkey ON warehouse_v2.fact_headcount_monthly USING btree (date_key, department_id)"
+fact_headcount_monthly,idx_headcount_department_month,"CREATE INDEX idx_headcount_department_month ON warehouse_v2.fact_headcount_monthly USING btree (department_id, month_start_date)"
+fact_leave,fact_leave_pkey,CREATE UNIQUE INDEX fact_leave_pkey ON warehouse_v2.fact_leave USING btree (leave_request_id)
+fact_leave,idx_leave_employee_start,"CREATE INDEX idx_leave_employee_start ON warehouse_v2.fact_leave USING btree (employee_key, start_date_key)"
+fact_payroll,fact_payroll_pkey,CREATE UNIQUE INDEX fact_payroll_pkey ON warehouse_v2.fact_payroll USING btree (payroll_item_id)
+fact_payroll,idx_payroll_employee_date,"CREATE INDEX idx_payroll_employee_date ON warehouse_v2.fact_payroll USING btree (employee_key, date_key)"

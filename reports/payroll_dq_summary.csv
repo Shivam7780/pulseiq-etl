@@ -1,0 +1,3 @@
+check_id,check_name,affected_records,severity,recommended_action
+PAYROLL_DQ_01,Payroll after employee exit date,82,High,Quarantine and validate final settlements
+PAYROLL_DQ_02,Payroll employee missing from dimension,2,High,Investigate missing employee references
