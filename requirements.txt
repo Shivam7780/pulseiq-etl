@@ -1,9 +1,6 @@
-pandas
-openpyxl
-pandera
-pyarrow
-python-dotenv
-pandas
-openpyxl
-SQLAlchemy
-psycopg2-binary
+streamlit>=1.37
+pandas>=2.2
+plotly>=5.22
+sqlalchemy>=2.0
+psycopg[binary]>=3.2
+python-dotenv>=1.0
